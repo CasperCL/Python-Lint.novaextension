@@ -7,8 +7,8 @@
     "categories": [
         "issues"
     ],
-    "repository": "https://github.com/CasperCL/PLint.novaextension",
-    "bugs": "https://github.com/CasperCL/AnyLint.novaextension/issues",
+    "repository": "https://github.com/CasperCL/Python-Lint.novaextension",
+    "bugs": "https://github.com/CasperCL/Python-Lint.novaextension/issues",
     "main": "main.js",
     "activationEvents": [
         "onLanguage:python"
