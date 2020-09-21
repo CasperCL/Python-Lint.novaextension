@@ -25,7 +25,3 @@ Once the paths are configured, you're all set!
 
 ## Development
 Is your favourite linter not in here? Or did you run into a problem? Create an issue. PRs are welcome!
-
-## TODO
-1. Default to .pylintrc, mypy.ini or .flake8
-2. Change issue severity per linter
