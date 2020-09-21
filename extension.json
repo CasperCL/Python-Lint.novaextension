@@ -1,0 +1,143 @@
+{
+    "identifier": "unofficial.PythonLint",
+    "name": "Python Lint",
+    "organization": "Unofficial",
+    "description": "Use your favourite Python linters to highlight your coding flaws.",
+    "version": "0.1",
+    "categories": [
+        "issues"
+    ],
+    "repository": "https://github.com/CasperCL/PLint.novaextension",
+    "bugs": "https://github.com/CasperCL/AnyLint.novaextension/issues",
+    "main": "main.js",
+    "activationEvents": [
+        "onLanguage:python"
+    ],
+    "entitlements": {
+        "process": true
+    },
+    "issueMatchers": {
+        "flake8": {
+            "pattern": {
+                "regexp": "^(.*\\.py):([0-9]+):([0-9]+):\\s([A-Z0-9]+)\\s(.*)",
+                "message": 5,
+                "code": 4,
+                "file": 1,
+                "line": 2,
+                "column": 3,
+                "severity": "error"
+            }
+        },
+        "mypy": {
+            "pattern": {
+                "regexp": "^(.*\\.py):([0-9]+):\\s([a-z]+):\\s(.*)",
+                "message": 4,
+                "file": 1,
+                "line": 2,
+                "severity": "error"
+            }
+        },
+        "pylint": {
+            "pattern": {
+                "regexp": "^(.*\\.py):([0-9]+):([0-9]+):\\s([A-Z0-9]+):\\s(.*)",
+                "message": 5,
+                "code": 4,
+                "file": 1,
+                "line": 2,
+                "column": 3,
+                "severity": "error"
+            }
+        }
+    },
+    "config": [
+        {
+            "key": "unofficial.AnyLint.issueSeverity",
+            "title": "Issue severity",
+            "type": "enum",
+            "description": "Define the issue severity of a linting issue.",
+            "values": [
+                "Error",
+                "Warning",
+                "Hint",
+                "Info"
+            ],
+            "default": "Warning"
+        },
+        {
+            "title": "Flake8 Options",
+            "description": "Tweak your options for flake8",
+            "type": "section",
+            "children": [
+                {
+                    "key": "unofficial.AnyLint.flake8Enabled",
+                    "title": "Enable flake8",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "unofficial.AnyLint.flake8ExecPath",
+                    "title": "Executable Path",
+                    "type": "path",
+                    "description": "Manually set the path for the linter executable.",
+                    "placeholder": "flake8"
+                },
+                {
+                    "key": "unofficial.AnyLint.flake8Args",
+                    "title": "CLI arguments",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "title": "MyPy Options",
+            "description": "Tweak your options for MyPy",
+            "type": "section",
+            "link": "https://library.panic.com/options",
+            "children": [
+                {
+                    "key": "unofficial.AnyLint.mypyEnabled",
+                    "title": "Enable MyPy",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "unofficial.AnyLint.mypyExecPath",
+                    "title": "Executable Path",
+                    "type": "path",
+                    "description": "Manually set the path for the linter executable.",
+                    "placeholder": "mypy"
+                },
+                {
+                    "key": "unofficial.AnyLint.mypyArgs",
+                    "title": "CLI arguments",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "title": "PyLint Options",
+            "description": "Tweak your options for PyLint",
+            "type": "section",
+            "children": [
+                {
+                    "key": "unofficial.AnyLint.pylintEnabled",
+                    "title": "Enable PyLint",
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "unofficial.AnyLint.pylintExecPath",
+                    "title": "Executable Path",
+                    "type": "path",
+                    "description": "Manually set the path for the linter executable.",
+                    "placeholder": "pylint"
+                },
+                {
+                    "key": "unofficial.AnyLint.pylintArgs",
+                    "title": "CLI arguments",
+                    "type": "string"
+                }
+            ]
+        }
+    ]
+}
