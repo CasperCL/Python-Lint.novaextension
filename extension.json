@@ -3,7 +3,7 @@
     "name": "Python Lint",
     "organization": "Unofficial",
     "description": "Use your favourite Python linters to highlight your coding flaws.",
-    "version": "0.1",
+    "version": "0.1.1",
     "categories": [
         "issues"
     ],
@@ -50,19 +50,6 @@
         }
     },
     "config": [
-        {
-            "key": "unofficial.AnyLint.issueSeverity",
-            "title": "Issue severity",
-            "type": "enum",
-            "description": "Define the issue severity of a linting issue.",
-            "values": [
-                "Error",
-                "Warning",
-                "Hint",
-                "Info"
-            ],
-            "default": "Warning"
-        },
         {
             "title": "Flake8 Options",
             "description": "Tweak your options for flake8",

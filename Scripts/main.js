@@ -21,7 +21,7 @@ function issueAssistantForParser(editor, parserName, executable, enabled, args) 
             parsedArgs = args.split(' ');
         }
         parsedArgs.push(path)
-        console.log("ARGS" + parsedArgs)
+        console.log("ARGS " + parsedArgs)
         let p = new Process(executable, { args: parsedArgs });
         let parser = new IssueParser(parserName);
         p.onStdout((line) => { parser.pushLine(line); });
