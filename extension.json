@@ -51,6 +51,20 @@
     },
     "config": [
         {
+            "title": "General Options",
+            "description": "General Python Lint options.",
+            "type": "section",
+            "children": [
+                {
+                    "key": "unofficial.AnyLint.runOnSave",
+                    "title": "Run on save",
+                    "type": "boolean",
+                    "description": "Run the linter(s) on save or continuously.",
+                    "default": true
+                }
+            ]
+        },
+        {
             "title": "Flake8 Options",
             "description": "Tweak your options for flake8",
             "type": "section",
