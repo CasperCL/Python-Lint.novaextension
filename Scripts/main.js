@@ -20,17 +20,23 @@ function issueAssistantForParser(editor, parserName, executable, enabled, args) 
         if (args != null) {
             parsedArgs = args.split(' ');
         }
-        parsedArgs.push(path)
-        console.log("ARGS" + parsedArgs)
-        let p = new Process(executable, { args: parsedArgs });
-        let parser = new IssueParser(parserName);
-        p.onStdout((line) => { parser.pushLine(line); });
-        p.onDidExit((code) => {
-            let issues = parser.issues;
-            console.info(`${parserName} found ${issues.length} issue(s)`);
-            resolve(issues);
-        });
-        p.start();
+        parsedArgs.push(path);
+        console.log("ARGS: " + parsedArgs);
+        try {
+            let p = new Process(executable, { args: parsedArgs });
+            let parser = new IssueParser(parserName);
+
+            p.onStdout((line) => { parser.pushLine(line); });
+            p.onStderr((line) => { console.warn(`ERROR: ${line}`); });
+            p.onDidExit((code) => {
+                let issues = parser.issues;
+                console.info(`${parserName} found ${issues.length} issue(s)`);
+                resolve(issues);
+            });
+            p.start();
+        } catch (err) {
+            console.error(`ERROR: ${err}`);
+        }
     });
 }
 
@@ -64,7 +70,7 @@ class PylintIssueAssistant {
     }
 }
 
-
-nova.assistants.registerIssueAssistant("python", new Flake8IssueAssistant(), {event: "onChange"});
-nova.assistants.registerIssueAssistant("python", new MyPyIssueAssistant(), {event: "onChange"});
-nova.assistants.registerIssueAssistant("python", new PylintIssueAssistant(), {event: "onChange"});
+let eventRegister = nova.config.get('unofficial.AnyLint.runOnSave') ? {event: "onSave"} : {event: "onChange"};
+nova.assistants.registerIssueAssistant("python", new Flake8IssueAssistant(), eventRegister);
+nova.assistants.registerIssueAssistant("python", new MyPyIssueAssistant(), eventRegister);
+nova.assistants.registerIssueAssistant("python", new PylintIssueAssistant(), eventRegister);

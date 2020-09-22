@@ -51,17 +51,31 @@
     },
     "config": [
         {
-            "key": "unofficial.AnyLint.issueSeverity",
-            "title": "Issue severity",
-            "type": "enum",
-            "description": "Define the issue severity of a linting issue.",
-            "values": [
-                "Error",
-                "Warning",
-                "Hint",
-                "Info"
-            ],
-            "default": "Warning"
+            "title": "General Options",
+            "description": "General Python Lint options.",
+            "type": "section",
+            "children": [
+                {
+                    "key": "unofficial.AnyLint.issueSeverity",
+                    "title": "Issue severity",
+                    "type": "enum",
+                    "description": "Define the issue severity of a linting issue.",
+                    "values": [
+                        "Error",
+                        "Warning",
+                        "Hint",
+                        "Info"
+                    ],
+                    "default": "Warning"
+                },
+                {
+                    "key": "unofficial.AnyLint.runOnSave",
+                    "title": "Run on save",
+                    "type": "boolean",
+                    "description": "Run the linter(s) on save or continuously.",
+                    "default": true
+                }
+            ]
         },
         {
             "title": "Flake8 Options",
