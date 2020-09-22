@@ -3,7 +3,7 @@
     "name": "Python Lint",
     "organization": "Unofficial",
     "description": "Use your favourite Python linters to highlight your coding flaws.",
-    "version": "0.1",
+    "version": "0.1.1",
     "categories": [
         "issues"
     ],
@@ -55,19 +55,6 @@
             "description": "General Python Lint options.",
             "type": "section",
             "children": [
-                {
-                    "key": "unofficial.AnyLint.issueSeverity",
-                    "title": "Issue severity",
-                    "type": "enum",
-                    "description": "Define the issue severity of a linting issue.",
-                    "values": [
-                        "Error",
-                        "Warning",
-                        "Hint",
-                        "Info"
-                    ],
-                    "default": "Warning"
-                },
                 {
                     "key": "unofficial.AnyLint.runOnSave",
                     "title": "Run on save",
