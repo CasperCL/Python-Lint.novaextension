@@ -1,5 +1,12 @@
 # ChangeLog
 
+## Version 0.2.1
+### Bugfixes
+- Fix issue where issues are show on one line above the actual issue.
+- Potential fix for MyPy showing issues across files
+### Other
+- Add more `console.log`s to help debugging
+
 ## Version 0.2
 ### Features
 - Use project configuration file by default (issue [#1](https://github.com/CasperCL/Python-Lint.novaextension/issues/1))

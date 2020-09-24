@@ -37,6 +37,11 @@ function issueAssistantForParser(editor, parserName, executable, enabled, args) 
             p.onStderr((line) => { console.warn(`ERROR: ${line}`); });
             p.onDidExit((code) => {
                 let issues = parser.issues;
+                for (issue of issues) {
+                    // A bug in the issue parser subtracts 1 from the line no.
+                    issue.line += 1;
+                    console.log(`${parserName} l${issue.line} issue: ${issue.message}`)
+                }
                 console.info(`${parserName} found ${issues.length} issue(s)`);
                 resolve(issues);
             });
