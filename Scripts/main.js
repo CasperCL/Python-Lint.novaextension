@@ -27,7 +27,10 @@ function issueAssistantForParser(editor, parserName, executable, enabled, args) 
         args.push(editor.document.path);
         console.log(`${parserName} args: ${args}`);
         try {
-            let p = new Process(executable, { args: args });
+            let p = new Process(executable, {
+                args: args,
+                cwd: nova.workspace.path
+            });
             let parser = new IssueParser(parserName);
 
             p.onStdout((line) => { parser.pushLine(line); });
