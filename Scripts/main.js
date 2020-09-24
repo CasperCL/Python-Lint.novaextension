@@ -1,5 +1,8 @@
 exports.activate = function() {
-    // Do work when the extension is activated
+    let eventRegister = nova.config.get('unofficial.AnyLint.runOnSave') ? {event: "onSave"} : {event: "onChange"};
+    nova.assistants.registerIssueAssistant("python", new Flake8IssueAssistant(), eventRegister);
+    nova.assistants.registerIssueAssistant("python", new MyPyIssueAssistant(), eventRegister);
+    nova.assistants.registerIssueAssistant("python", new PylintIssueAssistant(), eventRegister);
 }
 
 exports.deactivate = function() {
@@ -7,23 +10,24 @@ exports.deactivate = function() {
 }
 
 
+function parseArgs(argsString) {
+    if (argsString === null) {
+        return [];
+    }
+    return argsString.split(' ');
+}
+
 function issueAssistantForParser(editor, parserName, executable, enabled, args) {
     return new Promise(function(resolve) {
         if (!enabled) {
             resolve([]);
             return;
         }
-        
-        const issues = [];
-        var path = editor.document.path;
-        var parsedArgs = [];
-        if (args != null) {
-            parsedArgs = args.split(' ');
-        }
-        parsedArgs.push(path);
-        console.log("ARGS: " + parsedArgs);
+
+        args.push(editor.document.path);
+        console.log(`${parserName} args: ${args}`);
         try {
-            let p = new Process(executable, { args: parsedArgs });
+            let p = new Process(executable, { args: args });
             let parser = new IssueParser(parserName);
 
             p.onStdout((line) => { parser.pushLine(line); });
@@ -35,7 +39,7 @@ function issueAssistantForParser(editor, parserName, executable, enabled, args) 
             });
             p.start();
         } catch (err) {
-            console.error(`ERROR: ${err}`);
+            console.error(`${parserName} error: ${err}`);
         }
     });
 }
@@ -46,7 +50,7 @@ class Flake8IssueAssistant {
         var enabled = nova.config.get('unofficial.AnyLint.flake8Enabled');
         var execPath = nova.config.get('unofficial.AnyLint.flake8ExecPath');
         var args = nova.config.get('unofficial.AnyLint.flake8Args');
-        return issueAssistantForParser(editor, "flake8", execPath, enabled, args)
+        return issueAssistantForParser(editor, "flake8", execPath, enabled, parseArgs(args))
     }
 }
 
@@ -56,7 +60,10 @@ class MyPyIssueAssistant {
         var enabled = nova.config.get('unofficial.AnyLint.mypyEnabled');
         var execPath = nova.config.get('unofficial.AnyLint.mypyExecPath');
         var args = nova.config.get('unofficial.AnyLint.mypyArgs');
-        return issueAssistantForParser(editor, "mypy", execPath, enabled, args);
+        
+        let parsedArgs = parseArgs(args)
+        parsedArgs.push("--follow-imports=silent")
+        return issueAssistantForParser(editor, "mypy", execPath, enabled, parsedArgs);
     }
 }
 
@@ -66,11 +73,6 @@ class PylintIssueAssistant {
         var enabled = nova.config.get('unofficial.AnyLint.pylintEnabled');
         var execPath = nova.config.get('unofficial.AnyLint.pylintExecPath');
         var args = nova.config.get('unofficial.AnyLint.pylintArgs');
-        return issueAssistantForParser(editor, "pylint", execPath, enabled, args);
+        return issueAssistantForParser(editor, "pylint", execPath, enabled, parseArgs(args));
     }
 }
-
-let eventRegister = nova.config.get('unofficial.AnyLint.runOnSave') ? {event: "onSave"} : {event: "onChange"};
-nova.assistants.registerIssueAssistant("python", new Flake8IssueAssistant(), eventRegister);
-nova.assistants.registerIssueAssistant("python", new MyPyIssueAssistant(), eventRegister);
-nova.assistants.registerIssueAssistant("python", new PylintIssueAssistant(), eventRegister);
