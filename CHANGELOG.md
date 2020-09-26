@@ -1,5 +1,10 @@
 # ChangeLog
 
+## Version 0.3
+### Features
+- New preference option for all linters: change issue severity ([#2](https://github.com/CasperCL/Python-Lint.novaextension/issues/2))
+- New preference option for MyPy: follow or skip imports ([#7](https://github.com/CasperCL/Python-Lint.novaextension/issues/7))
+
 ## Version 0.2.1
 ### Bugfixes
 - Fix issue where issues are show on one line above the actual issue.
