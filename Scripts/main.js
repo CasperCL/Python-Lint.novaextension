@@ -9,7 +9,6 @@ exports.deactivate = function() {
     // Clean up state before the extension is deactivated
 }
 
-
 function parseArgs(argsString) {
     if (argsString === null) {
         return [];
@@ -17,8 +16,12 @@ function parseArgs(argsString) {
     return argsString.split(' ');
 }
 
-function issueAssistantForParser(editor, parserName, executable, enabled, args) {
+function issueAssistantForParser(editor, parserName, args) {
     return new Promise(function(resolve) {
+        const enabled = nova.config.get(`unofficial.AnyLint.${parserName}Enabled`);
+        const executable = nova.config.get(`unofficial.AnyLint.${parserName}ExecPath`);
+        const issueSeverity = nova.config.get(`unofficial.PythonLint.${parserName}IssueSeverity`);
+
         if (!enabled) {
             resolve([]);
             return;
@@ -32,22 +35,26 @@ function issueAssistantForParser(editor, parserName, executable, enabled, args) 
                 cwd: nova.workspace.path
             });
             let parser = new IssueParser(parserName);
-
             p.onStdout((line) => { parser.pushLine(line); });
-            p.onStderr((line) => { console.warn(`ERROR: ${line}`); });
+            p.onStderr((line) => { console.warn(`${parserName} ERROR: ${line}`); });
             p.onDidExit((code) => {
                 let issues = parser.issues;
                 for (issue of issues) {
                     // A bug in the issue parser subtracts 1 from the line no.
                     issue.line += 1;
+                    issue.severity = IssueSeverity[issueSeverity];
                     console.log(`${parserName} l${issue.line} issue: ${issue.message}`)
                 }
+
                 console.info(`${parserName} found ${issues.length} issue(s)`);
                 resolve(issues);
+                return;
             });
             p.start();
         } catch (err) {
             console.error(`${parserName} error: ${err}`);
+            resolve([]);
+            return;
         }
     });
 }
@@ -55,18 +62,14 @@ function issueAssistantForParser(editor, parserName, executable, enabled, args) 
 
 class Flake8IssueAssistant {
     async provideIssues(editor) {
-        var enabled = nova.config.get('unofficial.AnyLint.flake8Enabled');
-        var execPath = nova.config.get('unofficial.AnyLint.flake8ExecPath');
         var args = nova.config.get('unofficial.AnyLint.flake8Args');
-        return issueAssistantForParser(editor, "flake8", execPath, enabled, parseArgs(args))
+        return issueAssistantForParser(editor, "flake8", parseArgs(args))
     }
 }
 
 
 class MyPyIssueAssistant {
     async provideIssues(editor) {
-        var enabled = nova.config.get('unofficial.AnyLint.mypyEnabled');
-        var execPath = nova.config.get('unofficial.AnyLint.mypyExecPath');
         var args = nova.config.get('unofficial.AnyLint.mypyArgs');
         var mypyShouldFollowImports = nova.config.get('unofficial.PythonLint.mypyShouldFollowImports');
 
@@ -81,16 +84,14 @@ class MyPyIssueAssistant {
         } else {
             parsedArgs.push("--follow-imports=skip");
         }
-        return issueAssistantForParser(editor, "mypy", execPath, enabled, parsedArgs);
+        return issueAssistantForParser(editor, "mypy", parsedArgs);
     }
 }
 
 
 class PylintIssueAssistant {
     provideIssues(editor) {
-        var enabled = nova.config.get('unofficial.AnyLint.pylintEnabled');
-        var execPath = nova.config.get('unofficial.AnyLint.pylintExecPath');
         var args = nova.config.get('unofficial.AnyLint.pylintArgs');
-        return issueAssistantForParser(editor, "pylint", execPath, enabled, parseArgs(args));
+        return issueAssistantForParser(editor, "pylint", parseArgs(args));
     }
 }

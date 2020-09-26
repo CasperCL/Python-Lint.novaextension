@@ -86,6 +86,19 @@
                     "key": "unofficial.AnyLint.flake8Args",
                     "title": "CLI arguments",
                     "type": "string"
+                },
+                {
+                    "key": "unofficial.PythonLint.flake8IssueSeverity",
+                    "title": "Issue severity",
+                    "type": "enum",
+                    "description": "Define the issue severity of a linting issue.",
+                    "values": [
+                        "Error",
+                        "Warning",
+                        "Hint",
+                        "Info"
+                    ],
+                    "default": "Warning"
                 }
             ]
         },
@@ -112,6 +125,19 @@
                     "key": "unofficial.AnyLint.mypyArgs",
                     "title": "CLI arguments",
                     "type": "string"
+                },
+                {
+                    "key": "unofficial.PythonLint.mypyIssueSeverity",
+                    "title": "Issue severity",
+                    "type": "enum",
+                    "description": "Define the issue severity of a linting issue.",
+                    "values": [
+                        "Error",
+                        "Warning",
+                        "Hint",
+                        "Info"
+                    ],
+                    "default": "Error"
                 },
                 {
                     "key": "unofficial.PythonLint.mypyShouldFollowImports",
@@ -144,6 +170,19 @@
                     "key": "unofficial.AnyLint.pylintArgs",
                     "title": "CLI arguments",
                     "type": "string"
+                },
+                {
+                    "key": "unofficial.PythonLint.pylintIssueSeverity",
+                    "title": "Issue severity",
+                    "type": "enum",
+                    "description": "Define the issue severity of a linting issue.",
+                    "values": [
+                        "Error",
+                        "Warning",
+                        "Hint",
+                        "Info"
+                    ],
+                    "default": "Warning"
                 }
             ]
         }
