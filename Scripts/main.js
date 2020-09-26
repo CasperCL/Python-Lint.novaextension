@@ -71,9 +71,19 @@ class Flake8IssueAssistant {
 class MyPyIssueAssistant {
     async provideIssues(editor) {
         var args = nova.config.get('unofficial.AnyLint.mypyArgs');
-        
-        let parsedArgs = parseArgs(args)
-        parsedArgs.push("--follow-imports=silent")
+        var mypyShouldFollowImports = nova.config.get('unofficial.PythonLint.mypyShouldFollowImports');
+
+        let parsedArgs = parseArgs(args);
+        if (mypyShouldFollowImports) {
+            // The IssueParser cannot deal with issue reports across different
+            // files. It puts all the issues of different files in the active
+            // document. As a workaround, we make the errors resulting from
+            // imports silent. More (MyPy) information here: 
+            // https://mypy.readthedocs.io/en/stable/running_mypy.html#following-imports
+            parsedArgs.push("--follow-imports=silent");
+        } else {
+            parsedArgs.push("--follow-imports=skip");
+        }
         return issueAssistantForParser(editor, "mypy", parsedArgs);
     }
 }
