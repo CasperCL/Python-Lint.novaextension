@@ -112,6 +112,13 @@
                     "key": "unofficial.AnyLint.mypyArgs",
                     "title": "CLI arguments",
                     "type": "string"
+                },
+                {
+                    "key": "unofficial.PythonLint.mypyShouldFollowImports",
+                    "title": "Follow imports",
+                    "type": "boolean",
+                    "description": "Following imports (default) allows MyPy to find issues across files. However, following imports is also more resource intensive.",
+                    "default": true
                 }
             ]
         },
