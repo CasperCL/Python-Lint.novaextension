@@ -3,7 +3,7 @@
     "name": "Python Lint",
     "organization": "Unofficial",
     "description": "Use your favourite Python linters to highlight your coding flaws.",
-    "version": "0.3",
+    "version": "0.3.1",
     "categories": [
         "issues"
     ],
