@@ -2,7 +2,7 @@
 
 ## Version 0.3.1
 ### Bugfixes
-- Reverts workaround for Nova (1.3 and above) where the IssueParser put issues on wrong lines.
+- Reverts workaround for Nova (1.3 and above) where the IssueParser put issues on wrong lines. Version 1.2 and below still use said workaround.
 
 ## Version 0.3
 ### Features
