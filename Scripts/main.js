@@ -26,6 +26,8 @@ function issueAssistantForParser(editor, parserName, args) {
             resolve([]);
             return;
         }
+        const version = nova.version;
+        const below13 = version[0] == 1 && version[1] < 3;
 
         args.push(editor.document.path);
         console.log(`${parserName} args: ${args}`);
@@ -40,8 +42,12 @@ function issueAssistantForParser(editor, parserName, args) {
             p.onDidExit((code) => {
                 let issues = parser.issues;
                 for (issue of issues) {
-                    // A bug in the issue parser subtracts 1 from the line no.
-                    issue.line += 1;
+
+                    // TOOD: remove this check when 1.3 has been released for 2 weeks.
+                    if(below13) {
+                        // A bug in the issue parser subtracts 1 from the line no.
+                        issue.line += 1;
+                    }
                     issue.severity = IssueSeverity[issueSeverity];
                     console.log(`${parserName} l${issue.line} issue: ${issue.message}`)
                 }
