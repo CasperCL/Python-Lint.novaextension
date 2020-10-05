@@ -1,5 +1,9 @@
 # ChangeLog
 
+## Version 0.3.1
+### Bugfixes
+- Reverts workaround for Nova (1.3 and above) where the IssueParser put issues on wrong lines.
+
 ## Version 0.3
 ### Features
 - New preference option for all linters: change issue severity ([#2](https://github.com/CasperCL/Python-Lint.novaextension/issues/2))
